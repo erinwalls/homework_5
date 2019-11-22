@@ -54,5 +54,10 @@ library(ggthemes)
 ggplot(data = baltimore_3) +
   geom_col(mapping = aes(x = date, y = n)) +
   geom_smooth(mapping = aes(x = date, y = n), span = 0.1) +
-  geom_vline(data = freddie, mapping = aes(xintercept = date), linetype = "dashed", color = "red", size = 1.5)
+  geom_vline(data = freddie, mapping = aes(xintercept = date), 
+             linetype = "dashed", color = "red", size = 1.5) +
+  geom_text(data = freddie, mapping = aes(x = date, y = 0, 
+            label = "Arrest of Freddie Gray"), size = 4, vjust = -8.0,
+            hjust = 1.0)
+  
 ```
