@@ -33,4 +33,12 @@ library(lubridate)
 baltimore_1 <- baltimore %>% 
   mutate(reported_date = ymd(reported_date))
 ```
+
+```{r group_by_month}
+baltimore_2 <- baltimore_1 %>% 
+  group_by(date = floor_date(reported_date, "month"))
+
+baltimore_3 <- baltimore_2 %>% 
+  count(date)
+```
   
