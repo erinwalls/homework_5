@@ -41,4 +41,9 @@ baltimore_2 <- baltimore_1 %>%
 baltimore_3 <- baltimore_2 %>% 
   count(date)
 ```
+
+```{r freddie_gray}
+freddie <- baltimore_2 %>% 
+  filter(victim_last == "GREY")
+```
   
