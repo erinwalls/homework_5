@@ -51,6 +51,12 @@ freddie <- baltimore_2 %>%
 baltimore_4 <- baltimore_1 %>% 
   group_by(date = floor_date(reported_date, "month")) %>% 
   mutate(month = month(date))
+
+summer <- baltimore_4 %>% 
+  filter(month %in% c(5, 6, 7, 8, 9, 10))
+
+winter <- baltimore_4 %>% 
+  filter(month %in% c(1, 2, 3, 4, 11, 12))
 ```
 
 ```{r graph, fig.width = 10, fig.height = 2}
