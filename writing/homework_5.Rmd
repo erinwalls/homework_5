@@ -47,6 +47,12 @@ freddie <- baltimore_2 %>%
   filter(victim_last == "GREY")
 ```
 
+```{r seasons}
+baltimore_4 <- baltimore_1 %>% 
+  group_by(date = floor_date(reported_date, "month")) %>% 
+  mutate(month = month(date))
+```
+
 ```{r graph, fig.width = 10, fig.height = 2}
 library(ggplot2)
 library(ggthemes)
