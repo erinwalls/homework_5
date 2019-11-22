@@ -46,4 +46,13 @@ baltimore_3 <- baltimore_2 %>%
 freddie <- baltimore_2 %>% 
   filter(victim_last == "GREY")
 ```
-  
+
+```{r graph, fig.width = 10, fig.height = 2}
+library(ggplot2)
+library(ggthemes)
+
+ggplot(data = baltimore_3) +
+  geom_col(mapping = aes(x = date, y = n)) +
+  geom_smooth(mapping = aes(x = date, y = n), span = 0.1) +
+  geom_vline(data = freddie, mapping = aes(xintercept = date), linetype = "dashed", color = "red", size = 1.5)
+```
