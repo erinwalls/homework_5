@@ -9,7 +9,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ```{r setup_1}
 list.files("../data/")
 ```
+
+```{r read_data}
+library(tidyverse)
+library(readr)
+
+homicides <- read_csv("../data/homicide-data.csv")
+```
+
+```{r subset_data}
+library(magrittr)
+
+baltimore <- homicides %>% 
+  filter(city == "Baltimore")
+```
+  
