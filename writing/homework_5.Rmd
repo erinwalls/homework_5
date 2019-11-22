@@ -26,4 +26,11 @@ library(magrittr)
 baltimore <- homicides %>% 
   filter(city == "Baltimore")
 ```
+
+```{r dates}
+library(lubridate)
+
+baltimore_1 <- baltimore %>% 
+  mutate(reported_date = ymd(reported_date))
+```
   
