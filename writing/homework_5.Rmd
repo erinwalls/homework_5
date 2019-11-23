@@ -53,10 +53,12 @@ baltimore_4 <- baltimore_1 %>%
   mutate(month = month(date))
 
 summer <- baltimore_4 %>% 
-  filter(month %in% c(5, 6, 7, 8, 9, 10))
+  filter(month %in% c(5, 6, 7, 8, 9, 10)) %>% 
+  count(date)
 
 winter <- baltimore_4 %>% 
-  filter(month %in% c(1, 2, 3, 4, 11, 12))
+  filter(month %in% c(1, 2, 3, 4, 11, 12)) %>% 
+  count(date)
 ```
 
 ```{r graph, fig.width = 10, fig.height = 2}
