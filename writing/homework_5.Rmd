@@ -52,13 +52,18 @@ baltimore_4 <- baltimore_1 %>%
   group_by(date = floor_date(reported_date, "month")) %>% 
   mutate(month = month(date))
 
-summer <- baltimore_4 %>% 
-  filter(month %in% c(5, 6, 7, 8, 9, 10)) %>% 
+baltimore_4$month <- factor(baltimore_4$month)
+
+baltimore_5 <- baltimore_4 %>% 
+  mutate(month = fct_collapse(month, 
+                            summer = c("5", "6", "7", "8", "9", "10"),
+                            winter = c("1", "2", "3", "4", "11", "12"))) %>%
   count(date)
 
-winter <- baltimore_4 %>% 
-  filter(month %in% c(1, 2, 3, 4, 11, 12)) %>% 
-  count(date)
+baltimore_6 <- baltimore_4 %>% 
+  select(date, month) %>% 
+  full_join(baltimore_5, by = "date") %>% 
+  distinct()
 ```
 
 ```{r graph, fig.width = 10, fig.height = 2}
@@ -66,14 +71,13 @@ library(ggplot2)
 library(ggthemes)
 
 ggplot() +
-  geom_col(data = summer, mapping = aes(x = date, y = n), fill = "seashell3") +
-  geom_col(data = winter, mapping = aes(x = date, y = n), fill = "slategray2") +
+  geom_col(data = baltimore_6, mapping = aes(x = date, y = n)) +
   geom_smooth(data = baltimore_3, mapping = aes(x = date, y = n), se = FALSE,
               size = 1.2, span = 0.1) +
   geom_vline(data = freddie, mapping = aes(xintercept = date), 
              linetype = "dashed", color = "red", size = 1.5) +
   geom_text(data = freddie, mapping = aes(x = date, y = 0, 
-            label = "Arrest of Freddie Gray"), size = 4, 
-            vjust = -8.0, hjust = 1.0)
-  
+            label = "Arrest of Freddie Gray"), color = "white", size = 4, 
+            vjust = -8.0, hjust = 1.0) +
+  theme_dark()
 ```
