@@ -63,15 +63,18 @@ baltimore_5 <- baltimore_4 %>%
 baltimore_6 <- baltimore_4 %>% 
   select(date, month) %>% 
   full_join(baltimore_5, by = "date") %>% 
-  distinct()
+  distinct() %>% 
+  mutate(month = fct_collapse(month,
+                              summer = c("5", "6", "7", "8", "9", "10"),
+                              winter = c("1", "2", "3", "4", "11", "12")))
 ```
 
-```{r graph, fig.width = 10, fig.height = 2}
+```{r graph, fig.width = 10, fig.height = 2.5}
 library(ggplot2)
 library(ggthemes)
 
 ggplot() +
-  geom_col(data = baltimore_6, mapping = aes(x = date, y = n)) +
+  geom_col(data = baltimore_6, mapping = aes(x = date, y = n, fill = month)) +
   geom_smooth(data = baltimore_3, mapping = aes(x = date, y = n), se = FALSE,
               size = 1.2, span = 0.1) +
   geom_vline(data = freddie, mapping = aes(xintercept = date), 
@@ -79,5 +82,10 @@ ggplot() +
   geom_text(data = freddie, mapping = aes(x = date, y = 0, 
             label = "Arrest of Freddie Gray"), color = "white", size = 4, 
             vjust = -8.0, hjust = 1.0) +
-  theme_dark()
+  scale_fill_manual(" ", values = c("summer" = "seashell3",
+                                    "winter" = "slategray2")) +
+  theme_dark() +
+  theme(legend.position = "bottom") +
+  labs(title = "Homicides in Baltimore, MD", x = "Date",
+       y = "Monthly homicides")
 ```
